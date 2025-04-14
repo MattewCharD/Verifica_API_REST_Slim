@@ -22,7 +22,7 @@ Status code: 200
 {"id": 1, "sezione":"5A", "anno": 2024}
 
 Se la classe non è stata trovata:
-Status code: 404   
+Status code: 400   
 {"msg": "Not Found"}
 
 
@@ -77,44 +77,32 @@ Status code: 400
 ---------------------------------Alunni---------------------------------
 
 
-Recuperare tutti gli alunni da una classe: curl http://localhost:8080/classi/2/alunni
+Recuperare tutti gli alunni da una classe: curl http://localhost:8080/classi/1/alunni
 
 Richiesta:
-GET     /classi/2/certificazioni            AlunniController:viewAll
+GET     /classi/2/alunni            AlunniController:index
 
 Risposta
 Status code: 200   
-[{"id": 3, "alunno_id": 2, "titolo": "Certificazione Python", "votazione": 85, "ente": "Coursera"}]
-
-se alunno_id non è trovato:
-Status code: 404   
-{"msg": "Not Found"}
-
-Filtri (con query Params):
-search = ricerca una stringa in titolo e in ente;
-sortCol = sceglie la colonna su cui fare il sort;
-sort = per decidere se fare il sort ASCendent o DESCendent;
+[{"id": 1, "nome":"Claudio", "Cognome": "Benvenuti"},  {"id": 2 , "nome":"Ivan", "cognome": "Bruno"}]
 
 
 
-
-Vedere solo una certificazione: curl http://localhost:8080/alunni/3
+Vedere solo un alunno: 
 
 Richiesta:
-GET     /certificazioni/3               AlunniController:view
+GET     /classi/2/alunni/1                  AlunniController:show
 
 Risposta
 Status code: 200   
-{"id": 3, "alunno_id": 2, "titolo": "Certificazione Python", "votazione": 85, "ente": "Coursera"}
+{"id": 1, "nome":"Claudio", "Cognome": "Benvenuti"}
 
-Se certificazione non trovato:
+Se alunno non trovato:
 Status code: 404   
 {"msg": "Not Found"}
 
 
-
-
-
+Per creare un alunno
 
 Creare una certificazione per un alunno: curl -X POST http://locahost:8080/alunni/1/certificazioni -H "Content-Type: application/json" -d '{"titolo": "Certificazione Python", "votazione": 85, "ente": "Coursera"}'
 
@@ -122,47 +110,36 @@ Richiesta:
 POST    /alunni/1/certificazioni               AlunniController:create
 
 Risposta
-Status code: 201   
-{"msg": "Created"}
+Status code: 201  
+{"msg": "OK"}
 
 se alunno non trovato:
-Status code: 404  
-{"msg": "Alunno Not Found"}
-
-se body con parametri mancanti:
-Status code: 400   
-{"msg": "Missing Params"}
+Status code: 400  
+{"msg": "KO"}
 
 
 
-Modificare una certificazione: curl -X PUT http://locahost:8080/certificazioni/1 -H "Content-Type: application/json" -d '{"alunno_id": 2, "titolo": "Certificazione Python", "votazione": 85, "ente": "Coursera"}'
+Modificare un alunno: curl -X PUT http://localhost:8080/classi/2/alunni/1 -H "Content-Type: application/json" -d '{"alunno_id": 2, "titolo": "Certificazione Python", "votazione": 85, "ente": "Coursera"}'
 
 Richiesta:
-PUT    /certificazioni/1                   AlunniController:update
+PUT    /classi/2/alunni/1                 AlunniController:update
 
 Risposta
 Status code: 200   
 {"msg": "Updated"}
 
 se alunno non trovato:
-Status code: 404  
+Status code: 400  
 {"msg": "Alunno Not Found"}
 
-se body con parametri mancanti:
-Status code: 400   
-{"msg": "Missing Params"}
 
 
-
-Eliminare una certificazione: curl -X DELETE http://locahost:8080/certificazioni/1
+Eliminare un alunno: curl -X DELETE http://localhost:8080/classi/2/alunni/1
 
 Richiesta:
-DELETE    /ceertificazioni/1               AlunniController:destroy
+DELETE    /classi/2/alunni/1               AlunniController:destroy
 
 Risposta
 Status code: 200   
 {"msg": "Deleted"}
 
-se certificazione non è trovata:
-Status code: 404   
-{"msg": "Not Found"}
